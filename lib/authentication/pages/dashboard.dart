@@ -38,6 +38,8 @@ class _DashBoardState extends State<DashBoard> {
       'Video Calling',
     ];
 
+    Widget _dojjobotBtnChild = const Text('Chat with Dojjo!');
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -164,7 +166,7 @@ class _DashBoardState extends State<DashBoard> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 const Text('Agent Chosen: '),
-                                                const SizedBox(height: 20),
+                                                const SizedBox(height: 10),
                                                 TextField(
                                                   readOnly: true,
                                                   controller:
@@ -177,6 +179,8 @@ class _DashBoardState extends State<DashBoard> {
                                                     ),
                                                   ),
                                                 ),
+                                                const SizedBox(height: 15),
+                                                const Text('Choose issue category'),
                                                 const SizedBox(height: 10),
                                                 DropdownButtonFormField(
                                                   decoration: InputDecoration(
@@ -219,14 +223,14 @@ class _DashBoardState extends State<DashBoard> {
                                                     Navigator.pop(context);
                                                     Navigator.of(context).push(
                                                       MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ChatScreen(
-                                                                issueId:
-                                                                    issueProvider
-                                                                        .createIssue(
-                                                          agentId: agentIds[index],
-                                                          category: _selectedCategory
-                                                        )),
+                                                        builder: (context) => ChatScreen(
+                                                            issueId: issueProvider
+                                                                .createIssue(
+                                                                    agentId:
+                                                                        agentIds[
+                                                                            index],
+                                                                    category:
+                                                                        _selectedCategory)),
                                                       ),
                                                     );
                                                   },
@@ -265,7 +269,7 @@ class _DashBoardState extends State<DashBoard> {
                         // scrollDirection: Axis.horizontal,
                         itemCount: 3,
                         separatorBuilder: (context, index) => const SizedBox(
-                          height: 8,
+                          height: 3,
                         ),
                         itemBuilder: (context, index) {
                           return Container(
@@ -307,17 +311,19 @@ class _DashBoardState extends State<DashBoard> {
                         foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
+                        setState(() {
+                          _dojjobotBtnChild = const CircularProgressIndicator();
+                        });
                         await FirebaseFirestore.instance
                             .collection('dojjobot')
                             .doc(currentUser.uid)
                             .set({'texts': []}, SetOptions(merge: true));
+
                         if (mounted) {
                           Navigator.of(context).pushNamed('/dojjobot');
                         }
                       },
-                      child: const Text(
-                        'Chat with Dojjo!',
-                      )),
+                      child: _dojjobotBtnChild),
                   const SizedBox(height: 30),
                 ],
               ),

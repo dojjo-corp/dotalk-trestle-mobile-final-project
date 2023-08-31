@@ -114,17 +114,25 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                       itemBuilder: (BuildContext context) {
                         return [
-                          const PopupMenuItem<String>(
-                            value: 'option1',
-                            child: Text('Option 1'),
+                          PopupMenuItem<String>(
+                            value: 'archive',
+                            child: const Text('Archive issue'),
+                            onTap: () async {
+                              await store
+                                  .collection('issues')
+                                  .doc(widget.issueId)
+                                  .update({'active': false});
+                            },
                           ),
-                          const PopupMenuItem<String>(
-                            value: 'option2',
-                            child: Text('Option 2'),
-                          ),
-                          const PopupMenuItem<String>(
-                            value: 'option3',
-                            child: Text('Option 3'),
+                          PopupMenuItem<String>(
+                            value: 'archive',
+                            child: const Text('Make active'),
+                            onTap: () async {
+                              await store
+                                  .collection('issues')
+                                  .doc(widget.issueId)
+                                  .update({'active': true});
+                            },
                           ),
                         ];
                       },
@@ -161,7 +169,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         right: 0,
                         width: MediaQuery.of(context).size.width,
                         child: Container(
-                          color: Colors.grey[400],
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                              color: Colors.blueGrey[300]),
                           child: Row(
                             children: [
                               PopupMenuButton<String>(
@@ -170,20 +181,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   // Handle menu item selection
                                 },
                                 itemBuilder: (BuildContext context) {
-                                  return [
-                                    const PopupMenuItem<String>(
-                                      value: 'option1',
-                                      child: Text('Option 1'),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'option2',
-                                      child: Text('Option 2'),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'option3',
-                                      child: Text('Option 3'),
-                                    ),
-                                  ];
+                                  return [];
                                 },
                               ),
                               Expanded(
@@ -200,13 +198,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {
-                                  repo.sendChat(
+                                onPressed: () async {
+                                  await repo.sendChat(
                                     text: textController.text,
                                     source: currentUser.uid,
                                     issueId: widget.issueId,
                                   );
-                                  textController.clear();
+                                  if (mounted) {
+                                    textController.clear();
+                                  }
                                 },
                                 icon: const Icon(Icons.send_rounded),
                               )

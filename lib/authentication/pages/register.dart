@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         _obscureConfirm = !_obscureConfirm;
                                       });
                                     },
-                                    child: _obscureText
+                                    child: _obscureConfirm
                                         ? const Icon(Icons.visibility, size: 20,)
                                         : const Icon(Icons.visibility_off, size: 20),
                                   )),
