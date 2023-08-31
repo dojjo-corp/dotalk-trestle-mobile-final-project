@@ -1,16 +1,14 @@
 # dotalk
 
-A new Flutter project.
+A simple instant messaging platform targetted at Customer Service Providers
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Install the release apk to get started.
+You can find the release apk (app-release.apk) in the build/app/outputs/flutter-apk directory.
 
-A few resources to get you started if this is your first Flutter project:
+### Heads Up
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Project is riddled with spaghetti code and really bad code practices. Refactoring will take some time, but will definitely be done as soon as practical!
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### All suggestions and (constuctive) critique are welcomed!
