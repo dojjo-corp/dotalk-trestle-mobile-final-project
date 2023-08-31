@@ -5,7 +5,7 @@ A simple instant messaging platform targetted at Customer Service Providers
 ## Getting Started
 
 Install the release apk to get started.
-You can find the release apk (app-release.apk) in the build/app/outputs/flutter-apk directory.
+You can find the release apk (app-release.apk) at the root of this repository (/app-release.apk).
 
 ### Heads Up
 
