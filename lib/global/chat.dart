@@ -158,7 +158,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               source: texts[index]['source']!,
                             ),
                           ),
-                          separatorBuilder: (context, index) =>
+                          separatorBuilder: (context, index) => 
                               const SizedBox(height: 2),
                         ),
                       ),

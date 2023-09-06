@@ -158,50 +158,57 @@ class _UserIssuesState extends State<UserIssues>
                                   );
                                 },
                                 separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 5),
                               ),
                         archivedIssues.isEmpty
                             ? const Center(child: Text('No archived issues'))
                             : ListView.separated(
                                 itemCount: archivedIssues.length,
                                 itemBuilder: (context, index) {
+                                  print(archivedIssues[index].data());
                                   final issue = archivedIssues[index];
-                                  Map<String, dynamic> data = issue.data();
+                                  Map<String, dynamic> issueData = issue.data();
                                   String? lastText = '';
                                   DateTime tempTime;
                                   String? lastTime = '';
-                                  if (data['texts'].isNotEmpty) {
-                                    lastText = data['texts'].last['text'];
+                                  if (issueData['texts'].isNotEmpty) {
+                                    lastText = issueData['texts'].last['text'];
                                     tempTime =
-                                        data['texts'].last['time'].toDate();
+                                        issueData['texts'].last['time'].toDate();
                                     lastTime =
                                         '${tempTime.hour}:${tempTime.minute}';
                                   }
-                                  final issueAgent =
-                                      agentProvider.allAgents[issue['agent']];
-                                  final agentName =
-                                      '${issueAgent?['first-name']} ${issueAgent?['last-name']}';
-                                  String lastTextSource =
-                                      data['texts'].isNotEmpty &&
-                                              data['texts'].last['source'] ==
-                                                  data['agent']
-                                          ? agentName
-                                          : 'You';
-                                  // if (issue.data()['texts'].isEmpty){
-                                  //   lastTextSource = '';
-                                  // } else if(issue.data()['texts'].last['source'] == )
+                                  Map<String, dynamic> recipient = {};
+                                  String recipientId = '';
+                                  if (issueData['agent'] == currentUser.uid) {
+                                    recipient = userProvider
+                                        .allUsers[issueData['client']]!;
+                                    recipientId = issueData['client'];
+                                  } else {
+                                    recipient = userProvider
+                                        .allUsers[issueData['agent']]!;
+                                    recipientId = issueData['agent'];
+                                  }
+                                  final recipientName =
+                                      '${recipient['first-name']} ${recipient['last-name']}';
+                                  final lastTextSource = issueData['texts']
+                                              .isNotEmpty &&
+                                          issueData['texts'].last['source'] ==
+                                              recipientId
+                                      ? recipientName
+                                      : 'You';
                                   return IssuesCard(
-                                    agentName: agentName,
+                                    agentName: recipientName,
                                     index: index,
                                     issueId: issue.id,
-                                    category: issue['category'],
+                                    category: issueData['category'],
                                     lastText: lastText,
                                     lastTextSource: lastTextSource,
                                     lastTime: lastTime,
                                   );
                                 },
                                 separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 15),
+                                    const SizedBox(height: 5),
                               ),
                       ],
                     ),

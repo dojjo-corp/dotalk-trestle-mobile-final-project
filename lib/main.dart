@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/homepage': (context) => MyHomePage(),
-        '/dashboard': (context) => const DashBoard(),
+        '/dashboard': (context) => const MyHome(),
         '/account': (context) => const UserAccount(),
         '/settings': (context) => const AppSettings(),
         '/aboutUs': (context) => const AboutUs(),
@@ -106,7 +106,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = [
-    const DashBoard(),
+    const MyHome(),
     const UserIssues(),
     // const FaqTabPage(),
   ];

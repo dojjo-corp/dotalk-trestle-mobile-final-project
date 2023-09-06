@@ -38,7 +38,7 @@ class _MyActivityState extends State<MyActivity> {
                 builder: (context, userSnapshot) {
                   if (!userSnapshot.hasData) {
                     return const Center(
-                      child: Text('Seems you\'ve not yet started'),
+                      child: Text('Seems you\'ve not yet started making use of this awesome invention...'),
                     );
                   }
 
