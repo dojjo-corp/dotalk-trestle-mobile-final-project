@@ -12,8 +12,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       return await repo.login(email, password);
     } catch (e) {
-      log(e.toString());
-      return null;
+      rethrow;
     }
   }
 

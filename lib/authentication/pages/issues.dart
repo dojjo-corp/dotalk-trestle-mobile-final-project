@@ -215,6 +215,7 @@ class _UserIssuesState extends State<UserIssues>
                   ),
                 ],
               ),
+              userProvider.allUsers[currentUser.uid]!['type'] == 'client' ?
               Positioned(
                 bottom: 20,
                 right: 20,
@@ -323,7 +324,7 @@ class _UserIssuesState extends State<UserIssues>
                     color: Colors.white,
                   ),
                 ),
-              )
+              ) : const Center()
             ],
           );
         });

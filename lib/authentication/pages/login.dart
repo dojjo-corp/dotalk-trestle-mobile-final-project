@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -89,17 +90,19 @@ class _LoginPageState extends State<LoginPage> {
                             foregroundColor: Colors.white,
                           ),
                           onPressed: () async {
-                            if (await authProvider.login(
-                                    emailController.text.trim(),
-                                    passwordController.text.trim()) !=
-                                null) {
-                              Navigator.of(context)
-                                  .popAndPushNamed('/homepage');
-                            } else {
+                            try {
+                              if (await authProvider.login(
+                                      emailController.text.trim(),
+                                      passwordController.text.trim()) !=
+                                  null) {
+                                Navigator.of(context)
+                                    .popAndPushNamed('/homepage');
+                              }
+                            } on FirebaseException catch (e) {
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('login failed'),
-                                duration: Duration(seconds: 5),
+                                  .showSnackBar( SnackBar(
+                                content: Text('Login Failed. \nReason: ${e.code}'),
+                                duration: const Duration(seconds: 5),
                               ));
                             }
                           },

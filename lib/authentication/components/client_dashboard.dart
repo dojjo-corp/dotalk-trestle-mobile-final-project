@@ -1,8 +1,8 @@
 // to be used later in determining dashboard to user based on user type
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotalk/authentication/components/overview_card.dart';
 import 'package:dotalk/authentication/components/round_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,21 +27,8 @@ class _ClientDashboardState extends State<ClientDashboard> {
     final issueProvider = Provider.of<IssueProvider>(context);
     final agentProvider = Provider.of<AgentProvider>(context);
     final chosenAgentController = TextEditingController();
-    final currentUser = FirebaseAuth.instance.currentUser!;
 
-    // todo: add other services to later release and giv proper functionality
-    // final servicesImg = [
-    //   'assets/advisor.png',
-    //   'assets/financial-advisor.png',
-    //   'assets/video-calling.png'
-    // ];
-    // final servicesName = [
-    //   'Advisor',
-    //   'Financial Advisor',
-    //   'Video Calling',
-    // ];
-
-    Widget dojjobotBtnChild = const Text('Chat with Dojjo!');
+    // todo: add other services to later release and give proper functionality
 
     // working with asynchoronous snapshot from dashboard streambuilder
     final docs = widget.snapshot.data!.docs;
@@ -90,6 +77,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
 
     return SizedBox(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,33 +189,63 @@ class _ClientDashboardState extends State<ClientDashboard> {
           //   style: TextStyle(
           //     fontWeight: FontWeight.bold,
           //     fontSize: 30,
-          //     color: Colors.grey[800],              
+          //     color: Colors.grey[800],
           //   ),
           //   textAlign: TextAlign.center,
           // ),
-          Expanded(
-            child: Center(
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 100),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () async {
-                    setState(() {
-                      dojjobotBtnChild = const CircularProgressIndicator();
-                    });
-                    await FirebaseFirestore.instance
-                        .collection('dojjobot')
-                        .doc(currentUser.uid)
-                        .set({'texts': []}, SetOptions(merge: true));
-
-                    if (mounted) {
-                      Navigator.of(context).pushNamed('/dojjobot');
-                    }
-                  },
-                  child: dojjobotBtnChild),
-            ),
+          const Column(
+            children: [
+              OverviewCard(
+                category: 'General',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Account',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Payment & Billing',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Network',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Product Information',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
           ),
         ],
       ),

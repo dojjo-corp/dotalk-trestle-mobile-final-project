@@ -127,13 +127,18 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      // ignore: use_build_context_synchronously
-                      if (mounted) {
+                      try {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: (context) => const LoginPage()),
                             (route) => false);
+                        await FirebaseAuth.instance.signOut();
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        );
                       }
                     },
                     child: ListTile(

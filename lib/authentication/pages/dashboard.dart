@@ -21,42 +21,45 @@ class _MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser!;
     final userProvider = Provider.of<UserProvider>(context);
+    Widget dojjobotBtnChild = const Icon(
+      Icons.adb_rounded,
+      color: Colors.white,
+      semanticLabel: "Chat with Dojjo!",
+    );
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.82,
-          child: Stack(
-            children: [
-              StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('users')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('users').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                            'Failed to load data with error: ${snapshot.error}'),
-                      );
-                    }
+            if (snapshot.hasError) {
+              return Center(
+                child:
+                    Text('Failed to load data with error: ${snapshot.error}'),
+              );
+            }
 
-                    final userDocs = snapshot.data!.docs;
-                    final Map<String, Map<String, dynamic>> allUsers = {};
-                    for (var doc in userDocs) {
-                      allUsers[doc.id] = doc.data();
-                    }
-                    userProvider.setAllUsers(allUsers);
+            final userDocs = snapshot.data!.docs;
+            final Map<String, Map<String, dynamic>> allUsers = {};
+            for (var doc in userDocs) {
+              allUsers[doc.id] = doc.data();
+            }
+            userProvider.setAllUsers(allUsers);
 
-                    return Column(
+            return Stack(
+              children: [
+                ListView(
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
                           children: [
@@ -66,7 +69,7 @@ class _MyHomeState extends State<MyHome> {
                               style: TextStyle(fontSize: 18),
                             ),
                             Text(
-                              currentUser.displayName!,
+                              userProvider.allUsers[currentUser.uid]?['first-name'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 25),
                             )
@@ -75,7 +78,8 @@ class _MyHomeState extends State<MyHome> {
                         const SizedBox(height: 15),
 
                         // AVAILABLE AGENTS
-                        Expanded(
+                        Flexible(
+                          fit: FlexFit.loose,
                           child:
                               userProvider.allUsers[currentUser.uid]!['type'] ==
                                       'agent'
@@ -83,12 +87,36 @@ class _MyHomeState extends State<MyHome> {
                                   : ClientDashboard(snapshot: snapshot),
                         ),
                       ],
-                    );
-                  }),
-            ],
-          ),
-        ),
-      ),
+                    ),
+                  ],
+                ),
+                userProvider.allUsers[currentUser.uid]!['type'] == 'client'
+                    ? Positioned(
+                        bottom: 20,
+                        right: 20,
+                        child: FloatingActionButton(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          onPressed: () async {
+                            setState(() {
+                              dojjobotBtnChild =
+                                  const CircularProgressIndicator();
+                            });
+                            await FirebaseFirestore.instance
+                                .collection('dojjobot')
+                                .doc(currentUser.uid)
+                                .set({'texts': []}, SetOptions(merge: true));
+
+                            if (mounted) {
+                              Navigator.of(context).pushNamed('/dojjobot');
+                            }
+                          },
+                          child: dojjobotBtnChild,
+                        ),
+                      )
+                    : const Center()
+              ],
+            );
+          }),
     );
   }
 }

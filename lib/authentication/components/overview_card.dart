@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OverviewCard extends StatelessWidget {
   const OverviewCard({
@@ -6,6 +7,7 @@ class OverviewCard extends StatelessWidget {
     required this.category,
     required this.numberOfIssues,
     required this.gradient,
+    String pathToDetails = '',
   });
 
   final Gradient gradient;
@@ -28,7 +30,7 @@ class OverviewCard extends StatelessWidget {
           children: [
             Text(
               category,
-              style: TextStyle(
+              style: GoogleFonts.robotoSlab(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 18),

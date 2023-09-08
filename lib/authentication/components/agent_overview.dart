@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotalk/authentication/components/overview_card.dart';
 import 'package:dotalk/global/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -70,15 +71,20 @@ class _AgentOverviewState extends State<AgentOverview> {
                           //     builder: (context) =>
                           //         const ChatScreen(issueId: '')));
                           showDialog(
-                              context: context,
-                              builder: ((context) => Center(
+                            context: context,
+                            builder: ((context) => Center(
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.blueGrey[100],
                                     ),
                                     padding: const EdgeInsets.all(20),
-                                      child:
-                                          const Text('Dialog appears here')))));
+                                    child: Text(
+                                      'Dialog appears here',
+                                      style: GoogleFonts.trirong(fontSize: 20),
+                                    ),
+                                  ),
+                                )),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).primaryColor,
@@ -122,67 +128,59 @@ class _AgentOverviewState extends State<AgentOverview> {
             style: TextStyle(color: Colors.grey[600]),
           ),
           const SizedBox(height: 10),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+          const Column(
+            children: [
+              OverviewCard(
+                category: 'General',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
               ),
-              child: ListView(
-                children: const [
-                  OverviewCard(
-                    category: 'General',
-                    numberOfIssues: 1,
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.blueGrey],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  OverviewCard(
-                    category: 'Account',
-                    numberOfIssues: 1,
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.blueGrey],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  OverviewCard(
-                    category: 'Payment & Billing',
-                    numberOfIssues: 1,
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.blueGrey],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  OverviewCard(
-                    category: 'Network',
-                    numberOfIssues: 1,
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.blueGrey],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  OverviewCard(
-                    category: 'Product Information',
-                    numberOfIssues: 1,
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.blueGrey],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                ],
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Account',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
               ),
-            ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Payment & Billing',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Network',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 10),
+              OverviewCard(
+                category: 'Product Information',
+                numberOfIssues: 1,
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.blueGrey],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
           )
         ],
       ),
